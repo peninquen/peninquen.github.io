@@ -2,14 +2,16 @@
 layout: page
 title: About
 permalink: /about/
+published: true
 ---
 
-Some information about you!
 
-### More Information
+Ingeniero desde hace veinte años, pero con ganas de investigar y sorprenderme desde que recuerdo...
 
-A place to include any other types of information that you'd like to include about yourself.
+### Motivos
 
-### Contact me
+El motivo de escribrir este blog es documentar lo que voy aprendiendo sobre la domótica, pero seguro que algo más también incluiré.
 
-[email@domain.com](mailto:email@domain.com)
+### Si quieres contactar conmigo...
+
+Puedes abrir un 'issue' en mi página de [Github @peninquen](https://github.com/peninquen/peninquen.github.io)

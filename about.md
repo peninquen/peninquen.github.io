@@ -10,7 +10,7 @@ Ingeniero desde hace veinte años, pero con ganas de investigar y sorprenderme d
 
 ### Motivos
 
-El motivo de escribrir este blog es documentar lo que voy aprendiendo sobre la domótica, pero seguro que algo más también incluiré.
+¿Se necesita alguno? documentaré lo que voy aprendiendo sobre la domótica, pero seguro que algo más también incluiré.
 
 ### Si quieres contactar conmigo...
 

@@ -5,10 +5,10 @@ published: true
 
 
 # ¿Cuánto consumes?
-##Motivos
 > Espera... sí, aquí están las últimas facturas de luz, agua, son de hace dos meses, vaya esta es un poco alta, ya recuerdo, hubo un día que se quedó la mangera abierta y inundamos el jardín... la de la electricidad, esa no hablamos, los niños se dejan las luces de sus habitaciones, la tele encendida...
 ¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía...
 
+##Motivos
 Uno de los motivos para introducirme en la domótica es conocer lo que consumo, cuándo, cómo y porqué, y con los datos del contador es imposible.
 
 Hace unos años me planteé cual sería el sistema para conocer el consumo, poder ajustar la potencia contratada, ajustar el encendido de algunos electrodomésticos al la mejor tarifa.

@@ -33,14 +33,16 @@ Para la conexión de comunicaciones necesitamos:
 
 El conversor RS485-TTL incluye las resistencias pull-up y pull-down del canal y de la conexión TTL, además de un condensador para el MAX485. Los pines indican DI('Driver IN')  para transmitir; RO ('Recevier OUT') para recibir; los pines DE ('Driver Enable') y RE ('Recevier Enable' NOT) para alternar entre transmitir y recibir.
 ![]({{site.baseurl}}/assets/images/max485-pins.png)
-La alimentación debe asegurar al menos 2 voltios en el extremo contrario a la alimentación, por lo que dependiendo de la sección y longitud de la linea hay que fijar el voltaje. Para nuestra instalación podemos funcionar con los 5V de la alimentación. Por estabilidad no tomes la tensión del regulador del Arduino. 
-
-así que a buscar una librería adecuada para que actúe como Master en la comunicación.
+La alimentación debe asegurar al menos 2 voltios en el extremo contrario a la alimentación, por lo que dependiendo de la sección y longitud de la linea hay que fijar el voltaje. Para nuestra instalación podemos funcionar con los 5V de la alimentación sin ningún problema. Por estabilidad no tomes la tensión del regulador del Arduino. 
+El montaje final es como sigue:
+![]({{site.baseurl}}/assets/images/mega-rs485-sdm120.png)
+##Librería
+Se necesita una librería para que actúar como Master en la comunicación.
 
 La primera opción fue utilizar SimpleModbusMaster (en [este hilo](http://forum.arduino.cc/index.php?topic=176142.0) se discute extensamente su utilización) y se pudo poner en marcha, pero con algún problema que no terminaba de convencerme.
 - Programación en C. Me atrae mucho la programación orientada a objetos y el C++, y tal como esta planteada no veía la manera de encapsular los objetos.
 - Muestreo continuo, en un principio parece una opción interesante, muestrear continuamente todos los parametros y guardar el último valor leído. Pero esto limita el uso de la librería para otros usos como actualización de parámetros o lecturas puntuales.
-- No realiza tratamiento de excepciones o errores, el principal cuando el dispositivo se encuentra apagado ¿qué valor se utiliza? cero, el último leido, no hay dato. Teniendo encuenta que es una medida eléctrica, voltaje, intensidad y potencia son cero, el contador de energía el último valor leído válido.
+- No realiza tratamiento de excepciones o errores. El principal cuando el dispositivo se encuentra apagado ¿qué valor se utiliza? cero, el último leido, no hay dato. Teniendo en cuenta que es una medida eléctrica, voltaje, intensidad y potencia son cero, el contador de energía el último valor leído válido.
 - Posibles interferencias con otros procesos. Si el arduino se encuentra realizando otros procesos, el proceso Modbus tiene que ser 'no-bloqueo', entra, comprueba si tiene que hacer algo, lo hace rápido y sale al hilo principal.
 
 Así que me puse manos a la obra a elaborar una librería nueva con dos objetos:

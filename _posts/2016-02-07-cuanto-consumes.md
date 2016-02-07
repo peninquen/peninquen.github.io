@@ -1,6 +1,7 @@
 ---
-published: false
+published: true
 ---
+
 
 
 # ¿Cuánto consumes?
@@ -22,22 +23,23 @@ El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica
 > ¡ATENCIÓN!¡PELIGRO DE DESCARGA ELÉCTRICA! SI NO TIENES CONOCIMIENTOS SUFICIENTES RECURRE A UN ELECTRICISTA PARA LA CONEXIÓN DEL EQUIPO
 Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
 
-Incluyo una serie de fotos de un montaje simplificado.
+Incluyo una foto de un montaje simplificado:
+![]({{site.baseurl}}/assets/images/IMG_20151108_180729596.jpg)
 
 Para la conexión de comunicaciones necesitamos:
 - Arduino MEGA, para la instalación final se puede realizar en un Arduino UNO, micro, con un solo puerto serie, pero para pruebas utilizamos el MEGA, utilizamos ``Serial`` para la carga de sketchs y debug, y ``Serial1`` para la conexión del canal RS485
 - Conversor RS485-TTL, adapta los niveles de señal y realiza la conexión half-duplex.
 - Cable de comunicaciones, la norma recomienda par trenzado de calibre AWG24. Teniendo en cuenta que vamos a utilizar pequeñas distancias y el entorno no es industrial con mucho ruido electromagnético, podremos relajar estas condiciones.
 - Conversor RS485-USB, opcional, si queremos inspeccionar los paquetes que circulan por el canal.
-- Resistencia 170R, a emplear como terminación de línea. En mi caso he podido mantener la comunicación si emplear la resistencia, seguramente en tiradas largas sea necesario.
+- Resistencia de terminación de 120R, ajusta la impedancia para eliminar señales reflejadas. En mi caso he podido mantener la comunicación sin emplear la resistencia, seguramente en tiradas largas sea necesario y otras velocidades de transmisión sea necesaria.
 
-El conversor RS485-TTL incluye las resistencias pull-up y pull-down del canal y de la conexión TTL, además de un condensador para el MAX485. Los pines indican DI('Driver IN')  para transmitir; RO ('Recevier OUT') para recibir; los pines DE ('Driver Enable') y RE ('Recevier Enable' NOT) para alternar entre transmitir y recibir.
+El conversor RS485-TTL incluye las resistencias pull-up y pull-down del canal y de la conexión TTL, además de un par de condensadores para el MAX485. Los pines indican DI('Driver IN')  para transmitir; RO ('Recevier OUT') para recibir; los pines DE ('Driver Enable') y RE ('Recevier Enable' NOT) para alternar entre transmitir y recibir.
 ![]({{site.baseurl}}/assets/images/max485-pins.png)
 La alimentación debe asegurar al menos 2 voltios en el extremo contrario a la alimentación, por lo que dependiendo de la sección y longitud de la linea hay que fijar el voltaje. Para nuestra instalación podemos funcionar con los 5V de la alimentación sin ningún problema. Por estabilidad no tomes la tensión del regulador del Arduino. 
 El montaje final es como sigue:
 ![]({{site.baseurl}}/assets/images/mega-rs485-sdm120.png)
 ##Librería
-Se necesita una librería para que actúar como Master en la comunicación.
+Se necesita una librería para actúar como Master en la comunicación.
 
 La primera opción fue utilizar SimpleModbusMaster (en [este hilo](http://forum.arduino.cc/index.php?topic=176142.0) se discute extensamente su utilización) y se pudo poner en marcha, pero con algún problema que no terminaba de convencerme.
 - Programación en C. Me atrae mucho la programación orientada a objetos y el C++, y tal como esta planteada no veía la manera de encapsular los objetos.
@@ -46,7 +48,21 @@ La primera opción fue utilizar SimpleModbusMaster (en [este hilo](http://forum.
 - Posibles interferencias con otros procesos. Si el arduino se encuentra realizando otros procesos, el proceso Modbus tiene que ser 'no-bloqueo', entra, comprueba si tiene que hacer algo, lo hace rápido y sale al hilo principal.
 
 Así que me puse manos a la obra a elaborar una librería nueva con dos objetos:
-``ModbusMaster``, encargado de gestionar el protocolo Modbus RTU sobre un puerto serial.
+``ModbusMaster``y su instancia ``MBSerial``, encargado de gestionar el protocolo Modbus RTU sobre un puerto serial.
 ``ModbusSensor``, objeto que representa el dato del equipo SDM, contiene la información de trama para realizar la petición y almacenar la respuesta.
 
-El SMD120 trabaja en todos los sensores con valores ``float``,pero los parametros del equipo son también hexadecimales y BCD ¿cómo tratarlos? la primera opción fue centrarme en los datos float, pero no terminaba de estar convencido. Decidí hacer una gestión modbus solo con valores ``uint8_t`` de forma que si había que realizar alguna transfomación fuese en la siguiente capa.
+El SMD120 trabaja en todos los sensores con valores ``float``,pero los parametros del equipo son también hexadecimales y BCD ¿cómo tratarlos? la primera opción fue centrarme en los datos float, pero no terminaba de estar convencido. Decidí hacer una gestión modbus solo con valores ``byte`` de forma que si había que realizar alguna transfomación fuese en la siguiente capa. 
+
+La primera decisión fue almacenar los datos en sentido inverso al orden de la trama. De esta forma los cuatro bytes se estructuran para formar un valor ``float`` sin conversión posterior, lo mismo que los enteros de 16 y 32 bits.
+
+Dando un paso más allá, comprobé que los SDM630, modelo trifásico del SDM120 almacenal los valores float de las tres fases en registros consecutivos, por lo que podría leer 3 valores float, equivalente a 6 registros de 16 bits consecutivos, almacenarlo en una estructura 
+```C++
+struct three-phase {
+  float line3, line2, line1;
+} voltage, current, power;
+```
+y los datos estarían disponibles en ``voltage.line1`` y sucesivos. Esta estructura permite reducir el numero de llamadas a los diferentes equipos, permitiendo mayores tasas de refresco.
+##En conclusión
+La comunicación ya está realizada, los datos los tiene el Arduino, ahora falta entregarlos para su almacenamiento y presentación. ¿Qué herramientas utilizar?
+Por ahora lo que más me atrae es montar un Raspberry Pi con MQTT y alguna base de datos, todavía estoy leyendo...
+Las siguientes pruebas y mejoras son instalarlo sobre un ESP8266, montar varios SDM120... pero eso vendrá en otro post.

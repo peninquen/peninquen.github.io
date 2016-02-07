@@ -1,0 +1,30 @@
+---
+published: false
+---
+
+## ¿Cuánto consumes?
+
+> Espera... sí, aquí están las últimas facturas de luz, agua, son de hace dos meses, vaya esta es un poco alta, ya recuerdo, hubo un día que se quedó la mangera abierta y inundamos el jardín... la de la electricidad, esa no hablamos, los niños se dejan las luces de sus habitaciones, la tele encendida...
+¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía...
+
+Uno de los motivos para introducirme en la domótica es conocer lo que consumo, cuándo, cómo y porqué, y con los datos del contador es imposible.
+
+Hace unos años me planteé cual sería el sistema para conocer el consumo, poder ajustar la potencia contratada, ajustar el encendido de algunos electrodomésticos al la mejor tarifa.
+
+Mi primer intento lo hice con un [Efergy](http://efergy.com/es/products/electricity-monitors) pero no salí muy convencido, la información de potencia era aparente y no real o activa, por la ausencia de seguimiento del voltaje (solo dispone de pinza amperimétrica).
+
+Así que busqué otras alternativas y encontré los equipos de Eastron, en particular el SDM120M. Este modelo permite la lectura de datos de voltaje, intensidad, potencia activa, factor de potencia, frecuencia, etc lo que permite el seguimiento de los parametros necesarios. La comunicación de los datos la realizar utilizando el protocolo Modbus RTU sobre RS485.
+
+¿Cómo leer los datos? un equipo Scada seria la solucion profesional, pero se aleja de mis objetivos. Buscando encontré que sobre arduino se puede implementar el protocolo Modbus RTU, así que a buscar una librería adecuada para que actúe como Master en la comunicación.
+
+La primera opción fue utilizar SimpleModbusMaster (en [este hilo](http://forum.arduino.cc/index.php?topic=176142.0) se discute extensamente su utilización) y se pudo poner en marcha, pero con algún problema que no terminaba de convencerme.
+- Programación en C. Me atrae mucho la programación orientada a objetos y el C++, y tal como esta planteada no veía la manera de encapsular los objetos.
+- Muestreo continuo, en un principio parece una opción interesante, muestrear continuamente todos los parametros y guardar el último valor leído. Pero esto limita el uso de la librería para otros usos como actualización de parámetros o lecturas puntuales.
+- No realiza tratamiento de excepciones o errores, el principal cuando el dispositivo se encuentra apagado ¿qué valor se utiliza? cero, el último leido, no hay dato. Teniendo encuenta que es una medida eléctrica, voltaje, intensidad y potencia son cero, el contador de energía el último valor leído válido.
+- Posibles interferencias con otros procesos. Si el arduino se encuentra realizando otros procesos, el proceso Modbus tiene que ser 'no-bloqueo', entra, comprueba si tiene que hacer algo, lo hace rápido y sale al hilo principal.
+
+Así que me puse manos a la obra a elaborar una librería nueva con dos objetos:
+``ModbusMaster``, encargado de gestionar el protocolo Modbus RTU sobre un puerto serial.
+``ModbusSensor``, objeto que representa el dato del equipo SDM, contiene la información de trama para realizar la petición y almacenar la respuesta.
+
+El SMD120 trabaja en todos los sensores con valores ``float``,pero los parametros del equipo son también hexadecimales y BCD ¿cómo tratarlos? la primera opción fue centrarme en los datos float, pero no terminaba de estar convencido. Decidí hacer una gestión modbus solo con valores ``uint8_t`` de forma que si había que realizar alguna transfomación fuese en la siguiente capa.

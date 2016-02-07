@@ -8,6 +8,7 @@ published: true
 ¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía...
 
 ##Motivos
+
 Uno de los motivos para introducirme en la domótica es conocer lo que consumo, cuándo, cómo y porqué, y con los datos del contador es imposible.
 
 Hace unos años me planteé cual sería el sistema para conocer el consumo, poder ajustar la potencia contratada, ajustar el encendido de algunos electrodomésticos al la mejor tarifa.
@@ -15,7 +16,9 @@ Hace unos años me planteé cual sería el sistema para conocer el consumo, pode
 Mi primer intento lo hice con un [Efergy](http://efergy.com/es/products/electricity-monitors) pero no salí muy convencido, la información de potencia era aparente y no real o activa, por la ausencia de seguimiento del voltaje (solo dispone de pinza amperimétrica).
 
 Así que busqué otras alternativas y encontré los equipos de Eastron, en particular el SDM120M. Este modelo permite la lectura de datos de voltaje, intensidad, potencia activa, factor de potencia, frecuencia, etc lcon lo que podemos realizar el seguimiento de los parametros necesarios. La comunicación de los datos la realizar utilizando el protocolo Modbus RTU sobre RS485.
+
 ##Montaje
+
 Sobre arduino se puede implementar el protocolo Modbus RTU sobre un canal RS485.
 El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica de 230V y la de comunicaciones y alimentación a 5V.
 
@@ -23,6 +26,7 @@ El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica
 Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
 
 Incluyo una foto de un montaje simplificado:
+
 ![]({{site.baseurl}}/assets/images/IMG_20151108_180729596.jpg)
 
 Para la conexión de comunicaciones necesitamos:
@@ -33,11 +37,16 @@ Para la conexión de comunicaciones necesitamos:
 - Resistencia de terminación de 120R, ajusta la impedancia para eliminar señales reflejadas. En mi caso he podido mantener la comunicación sin emplear la resistencia, seguramente en tiradas largas sea necesario y otras velocidades de transmisión sea necesaria.
 
 El conversor RS485-TTL incluye las resistencias pull-up y pull-down del canal y de la conexión TTL, además de un par de condensadores para el MAX485. Los pines indican DI('Driver IN')  para transmitir; RO ('Recevier OUT') para recibir; los pines DE ('Driver Enable') y RE ('Recevier Enable' NOT) para alternar entre transmitir y recibir.
+
 ![]({{site.baseurl}}/assets/images/max485-pins.png)
+
 La alimentación debe asegurar al menos 2 voltios en el extremo contrario a la alimentación, por lo que dependiendo de la sección y longitud de la linea hay que fijar el voltaje. Para nuestra instalación podemos funcionar con los 5V de la alimentación sin ningún problema. Por estabilidad no tomes la tensión del regulador del Arduino. 
 El montaje final es como sigue:
+
 ![]({{site.baseurl}}/assets/images/mega-rs485-sdm120.png)
+
 ##Librería
+
 Se necesita una librería para actúar como Master en la comunicación.
 
 La primera opción fue utilizar SimpleModbusMaster (en [este hilo](http://forum.arduino.cc/index.php?topic=176142.0) se discute extensamente su utilización) y se pudo poner en marcha, pero con algún problema que no terminaba de convencerme.
@@ -61,7 +70,9 @@ struct three-phase {
 } voltage, current, power;
 ```
 y los datos estarían disponibles en ``voltage.line1`` y sucesivos. Esta estructura permite reducir el numero de llamadas a los diferentes equipos, permitiendo mayores tasas de refresco.
+
 ##En conclusión
+
 La comunicación ya está realizada, los datos los tiene el Arduino, ahora falta entregarlos para su almacenamiento y presentación. ¿Qué herramientas utilizar?
 Por ahora lo que más me atrae es montar un Raspberry Pi con MQTT y alguna base de datos, todavía estoy leyendo...
 Las siguientes pruebas y mejoras son instalarlo sobre un ESP8266, montar varios SDM120... pero eso vendrá en otro post.

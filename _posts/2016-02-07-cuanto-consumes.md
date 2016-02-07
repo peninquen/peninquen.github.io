@@ -2,8 +2,8 @@
 published: false
 ---
 
-## ¿Cuánto consumes?
-
+# ¿Cuánto consumes?
+##Motivos
 > Espera... sí, aquí están las últimas facturas de luz, agua, son de hace dos meses, vaya esta es un poco alta, ya recuerdo, hubo un día que se quedó la mangera abierta y inundamos el jardín... la de la electricidad, esa no hablamos, los niños se dejan las luces de sus habitaciones, la tele encendida...
 ¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía...
 
@@ -13,9 +13,25 @@ Hace unos años me planteé cual sería el sistema para conocer el consumo, pode
 
 Mi primer intento lo hice con un [Efergy](http://efergy.com/es/products/electricity-monitors) pero no salí muy convencido, la información de potencia era aparente y no real o activa, por la ausencia de seguimiento del voltaje (solo dispone de pinza amperimétrica).
 
-Así que busqué otras alternativas y encontré los equipos de Eastron, en particular el SDM120M. Este modelo permite la lectura de datos de voltaje, intensidad, potencia activa, factor de potencia, frecuencia, etc lo que permite el seguimiento de los parametros necesarios. La comunicación de los datos la realizar utilizando el protocolo Modbus RTU sobre RS485.
+Así que busqué otras alternativas y encontré los equipos de Eastron, en particular el SDM120M. Este modelo permite la lectura de datos de voltaje, intensidad, potencia activa, factor de potencia, frecuencia, etc lcon lo que podemos realizar el seguimiento de los parametros necesarios. La comunicación de los datos la realizar utilizando el protocolo Modbus RTU sobre RS485.
+##Montaje
+Sobre arduino se puede implementar el protocolo Modbus RTU sobre un canal RS485.
+El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica de 230V y la de comunicaciones y alimentación a 5V.
 
-¿Cómo leer los datos? un equipo Scada seria la solucion profesional, pero se aleja de mis objetivos. Buscando encontré que sobre arduino se puede implementar el protocolo Modbus RTU, así que a buscar una librería adecuada para que actúe como Master en la comunicación.
+> ¡ATENCIÓN!¡PELIGRO DE DESCARGA ELÉCTRICA! SI NO TIENES CONOCIMIENTOS SUFICIENTES RECURRE A UN ELECTRICISTA PARA LA CONEXIÓN DEL EQUIPO
+Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
+
+Incluyo una serie de fotos de un montaje simplificado.
+
+Para la conexión de comunicaciones necesitamos:
+- Arduino MEGA, para la instalación final se puede realizar en un Arduino UNO, micro, con un solo puerto serie, pero para pruebas utilizamos el MEGA, utilizamos ``Serial`` para la carga de sketchs y debug, y ``Serial1`` para la conexión del canal RS485
+- Conversor RS485-TTL, adapta los niveles de señal y realiza la conexión half-duplex.
+- Cable de comunicaciones, la norma recomienda par trenzado de calibre AWG24. Teniendo en cuenta que vamos a utilizar pequeñas distancias y el entorno no es industrial con mucho ruido electromagnético, podremos relajar estas condiciones.
+- Conversor RS485-USB, opcional, si queremos inspeccionar los paquetes que circulan por el canal.
+- Resistencia 170R, a emplear como terminación de línea. En mi caso he podido mantener la comunicación si emplear la resistencia, seguramente en tiradas largas sea necesario.
+
+
+así que a buscar una librería adecuada para que actúe como Master en la comunicación.
 
 La primera opción fue utilizar SimpleModbusMaster (en [este hilo](http://forum.arduino.cc/index.php?topic=176142.0) se discute extensamente su utilización) y se pudo poner en marcha, pero con algún problema que no terminaba de convencerme.
 - Programación en C. Me atrae mucho la programación orientada a objetos y el C++, y tal como esta planteada no veía la manera de encapsular los objetos.

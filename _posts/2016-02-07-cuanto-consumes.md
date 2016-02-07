@@ -2,6 +2,7 @@
 published: false
 ---
 
+
 # ¿Cuánto consumes?
 ##Motivos
 > Espera... sí, aquí están las últimas facturas de luz, agua, son de hace dos meses, vaya esta es un poco alta, ya recuerdo, hubo un día que se quedó la mangera abierta y inundamos el jardín... la de la electricidad, esa no hablamos, los niños se dejan las luces de sus habitaciones, la tele encendida...
@@ -30,6 +31,9 @@ Para la conexión de comunicaciones necesitamos:
 - Conversor RS485-USB, opcional, si queremos inspeccionar los paquetes que circulan por el canal.
 - Resistencia 170R, a emplear como terminación de línea. En mi caso he podido mantener la comunicación si emplear la resistencia, seguramente en tiradas largas sea necesario.
 
+El conversor RS485-TTL incluye las resistencias pull-up y pull-down del canal y de la conexión TTL, además de un condensador para el MAX485. Los pines indican DI('Driver IN')  para transmitir; RO ('Recevier OUT') para recibir; los pines DE ('Driver Enable') y RE ('Recevier Enable' NOT) para alternar entre transmitir y recibir.
+![]({{site.baseurl}}/assets/images/max485-pins.png)
+La alimentación debe asegurar al menos 2 voltios en el extremo contrario a la alimentación, por lo que dependiendo de la sección y longitud de la linea hay que fijar el voltaje. Para nuestra instalación podemos funcionar con los 5V de la alimentación. Por estabilidad no tomes la tensión del regulador del Arduino. 
 
 así que a buscar una librería adecuada para que actúe como Master en la comunicación.
 

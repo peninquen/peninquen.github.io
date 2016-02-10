@@ -1,12 +1,13 @@
 ---
 layout: post
 title: "¿Cuánto consumes?"
+excerpt_separator: <!--more-->
 published: true
 ---
 Espera... sí, aquí están las últimas facturas de luz, agua, son de hace dos meses, vaya esta es un poco alta, ya recuerdo, hubo un día que se quedó la mangera abierta y inundamos el jardín... la de la electricidad, esa no hablamos, los niños se dejan las luces de sus habitaciones, la tele encendida...
-¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía...
+¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía... <!--more-->
 
-##Motivos
+#### Motivos
 
 Uno de los motivos para introducirme en la domótica es conocer lo que consumo, cuándo, cómo y porqué, y con los datos del contador es imposible.
 
@@ -16,7 +17,7 @@ Mi primer intento lo hice con un [Efergy](http://efergy.com/es/products/electric
 
 Así que busqué otras alternativas y encontré los equipos de Eastron, en particular el SDM120M. Este modelo permite la lectura de datos de voltaje, intensidad, potencia activa, factor de potencia, frecuencia, etc lcon lo que podemos realizar el seguimiento de los parametros necesarios. La comunicación de los datos la realizar utilizando el protocolo Modbus RTU sobre RS485.
 
-##Montaje
+#### Montaje
 
 Sobre arduino se puede implementar el protocolo Modbus RTU sobre un canal RS485.
 El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica de 230V y la de comunicaciones y alimentación a 5V.
@@ -44,7 +45,7 @@ El montaje final es como sigue:
 
 ![]({{site.baseurl}}/assets/images/mega-rs485-sdm120.png)
 
-##Librería
+#### Librería
 
 Se necesita una librería para actúar como Master en la comunicación.
 
@@ -70,7 +71,7 @@ struct three-phase {
 ```
 y los datos estarían disponibles en ``voltage.line1`` y sucesivos. Esta estructura permite reducir el numero de llamadas a los diferentes equipos, permitiendo mayores tasas de refresco.
 
-##En conclusión
+#### En conclusión
 
 La comunicación ya está realizada, los datos los tiene el Arduino, ahora falta entregarlos para su almacenamiento y presentación. ¿Qué herramientas utilizar?
 Por ahora lo que más me atrae es montar un Raspberry Pi con MQTT y alguna base de datos, todavía estoy leyendo...

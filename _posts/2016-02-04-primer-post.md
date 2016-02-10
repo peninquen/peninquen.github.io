@@ -1,11 +1,10 @@
 ---
 layout: post
 title: "¡primer post!"
+excerpt_separator: <!--more-->
 published: true
 ---
-¿Hay alguien ahí? al menos escucho mi eco...
-
-**{{post.title}}**
+¿Hay alguien ahí? al menos escucho mi eco... <!--more-->
 
 Hasta ahora me he mantenido alejado de los blogs, solamente participar en algún foro, y siempre parco en la expresión.
 

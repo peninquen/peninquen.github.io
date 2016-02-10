@@ -23,7 +23,8 @@ Sobre arduino se puede implementar el protocolo Modbus RTU sobre un canal RS485.
 El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica de 230V y la de comunicaciones y alimentación a 5V.
 
 > ¡ATENCIÓN!¡PELIGRO DE DESCARGA ELÉCTRICA! SI NO TIENES CONOCIMIENTOS SUFICIENTES RECURRE A UN ELECTRICISTA PARA LA CONEXIÓN DEL EQUIPO
-Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
+
+>Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
 
 Incluyo una foto de un montaje simplificado:
 
@@ -64,11 +65,13 @@ El SMD120 trabaja en todos los sensores con valores ``float``,pero los parametro
 La primera decisión fue almacenar los datos en sentido inverso al orden de la trama. De esta forma los cuatro bytes se estructuran para formar un valor ``float`` sin conversión posterior, lo mismo que los enteros de 16 y 32 bits.
 
 Dando un paso más allá, comprobé que los SDM630, modelo trifásico del SDM120 almacenal los valores float de las tres fases en registros consecutivos, por lo que podría leer 3 valores float, equivalente a 6 registros de 16 bits consecutivos, almacenarlo en una estructura 
+
 ```C++
 struct three-phase {
   float line3, line2, line1;
 } voltage, current, power;
 ```
+
 y los datos estarían disponibles en ``voltage.line1`` y sucesivos. Esta estructura permite reducir el numero de llamadas a los diferentes equipos, permitiendo mayores tasas de refresco.
 
 #### En conclusión

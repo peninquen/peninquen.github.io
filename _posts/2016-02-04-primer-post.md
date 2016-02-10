@@ -3,7 +3,7 @@ layout: post
 title: "¡primer post!"
 published: true
 ---
->¿Hay alguien ahí? al menos escucho mi eco...
+¿Hay alguien ahí? al menos escucho mi eco...
 
 **{{post.title}}**
 

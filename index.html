@@ -10,10 +10,8 @@ layout: default
   </span>
 
   <div class="entry">
-    {{ post.excerpt }}
+    {{ post.excerpt }}  <a href="{{ site.baseurl }}{{ post.url }}" class="read-more"> leer más...</a>
   </div>
-
-  <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Leer más...</a>
 
   {% endfor %}
 </p>

@@ -24,7 +24,7 @@ El montaje físico tienes dos partes que no se tienes que mezclar: la eléctrica
 
 > ¡ATENCIÓN!¡PELIGRO DE DESCARGA ELÉCTRICA! SI NO TIENES CONOCIMIENTOS SUFICIENTES RECURRE A UN ELECTRICISTA PARA LA CONEXIÓN DEL EQUIPO
 
->Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
+Para la conexión de 230V desconecta el suministro al cuadro donde vallas a instalar el SDM120. El SDM120 debe colocarse DESPUÉS de una protección magnetotérmica que asegure la desconexión en caso de corto interior al equipo.
 
 Incluyo una foto de un montaje simplificado:
 

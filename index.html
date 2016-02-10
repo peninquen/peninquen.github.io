@@ -1,18 +1,40 @@
 ---
 layout: default
 ---
+<h1>Últimos posts del Blog</h1>
+  <img src="/images/about.jpg" alt="" style="float: right; width: 180px; padding: 6px; border-radius: 5%">
+  <p>
+    Originally I am from Lithuania. I was always interested in different kinds of media - creating, editing and sharing
+    it.
+    Usually in the summer I would come up with crazy ideas. And so it happened that one of them was to build a website
+    (I think I was around 15 at that time). I got a simple book on how to build websites and
+    slowly started learning. Funny enough that It was so interesting to me that I went to UK to study Web Development &
+    Design. Until this day I am still working as web developer and still enjoying it.
+  </p>
+  <h4>What am I doing now ?</h4>
+  <p>
+    Currently I am living in Austria on the mountains and working at <a href="http://www.wikitude.com/"
+                                                                        rel="noreferrer">
+    Wikitude</a>. I mainly focus on Frontend. On a daily basis I have to deal with <strong>Node</strong> and
+    <strong>Angular</strong>. At the moment I am interested in Reactive and Functional Programming and experimenting
+    libraries like <strong>React</strong>, <strong>Redux</strong> and looking forward a lot to play with
+    <strong>RxJs</strong>.
+  </p>
+  <p>Besides learning and experimenting with new frameworks and technologies I enjoy hiking and taking pictures. If am
+    going
+    somewhere
+    I will usually take photo camera with me. If you want to see my recent shots you can easily find them on <a
+        href="https://www.flickr.com/{{ site.footer-links.flickr }}" target="_blank">flickr</a>.</p>
 
-<div class="posts">
+  <p class="about-contact"><strong>Find me on:</strong>
+    <span style="padding-left: 0.4rem">{% include svg-icons.html %}</span>
+  </p>
+
+</article>
+<p class="posts">
   {% for post in site.posts %}
-    <article class="post">
-
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
-
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Leer más...</a>
-    </article>
+  <span style="display: block; padding-bottom: 3px">
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%d-%m-%Y" }})
+  </span>
   {% endfor %}
-</div>
+</p>

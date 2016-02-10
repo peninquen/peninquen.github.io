@@ -1,0 +1,25 @@
+---
+layout: default
+---
+
+<div class="posts">
+  {% for post in site.posts %}
+  <article class="post">
+
+    <h1 class="hvr-underline-from-center"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+
+    <div class="entry">
+      {{ post.excerpt }}
+    </div>
+
+    <div>
+      <a href="{{ site.baseurl }}{{ post.url }}">Read more ...</a>
+
+      <div class="pull-right date" style="padding-top: 5px;">
+        <small>{{ post.date | date: "%Y-%m" }}</small>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </article>
+  {% endfor %}
+</div>

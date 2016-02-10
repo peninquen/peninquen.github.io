@@ -2,7 +2,8 @@
 <html>
   <head>
     <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
-
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16"/>
     {% include meta.html %}
 
     <!--[if lt IE 9]>
@@ -10,13 +11,15 @@
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600" rel="stylesheet"
+          type="text/css">
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
 
   <body>
-    <div class="wrapper-masthead">
+  <div class="wrapper-masthead sectionwrap blue red">
       <div class="container">
         <header class="masthead clearfix">
           <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
@@ -26,9 +29,9 @@
             <p class="site-description">{{ site.description }}</p>
           </div>
 
-          <nav>
-            <a href="{{ site.baseurl }}/">Blog</a>
-            <a href="{{ site.baseurl }}/about">Sobre mí</a>
+          <nav class="site-navigation">
+            <a href="{{ site.baseurl }}/" class="btn btn-default hvr-underline-from-center" role="button">About me</a>
+            <a href="{{ site.baseurl }}/blog/" class="btn btn-default hvr-underline-from-center" role="button">Blog</a>
           </nav>
         </header>
       </div>
@@ -41,7 +44,13 @@
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
-          {% include svg-icons.html %}
+          <div class="pull-left">
+            <small>Using Jekyll on GitHub pages</small>
+          </div>
+          <div class="pull-right">
+            {% include svg-icons.html %}
+          </div>
+          <div class="clearfix"></div>
         </footer>
       </div>
     </div>

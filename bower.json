@@ -1,0 +1,9 @@
+{
+  "name": "sarunast.com",
+  "private": true,
+  "dependencies": {
+    "font-awesome": "~4.5.0",
+    "hover": "~2.0.2",
+    "bootstrap": "v4.0.0-alpha.2"
+  }
+}

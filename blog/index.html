@@ -10,13 +10,11 @@ layout: default
 
     <div class="entry">
       {{ post.excerpt }}
-    </div>
 
-    <div>
-      <a href="{{ site.baseurl }}{{ post.url }}">Read more ...</a>
+      <a href="{{ site.baseurl }}{{ post.url }}">leer más ...</a>
 
       <div class="pull-right date" style="padding-top: 5px;">
-        <small>{{ post.date | date: "%Y-%m" }}</small>
+        <small>{{ post.date | date: "%d-%m-%Y" }}</small>
       </div>
       <div class="clearfix"></div>
     </div>

@@ -6,7 +6,7 @@ layout: default
 <p class="posts">
   {% for post in site.posts %}
   <span style="display: block; padding-bottom: 3px">
-    <h1 class="hvr-underline-from-center"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%d-%m-%Y" }})
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a> ({{ post.date | date: "%d-%m-%Y" }})
   </span>
 
   {% endfor %}

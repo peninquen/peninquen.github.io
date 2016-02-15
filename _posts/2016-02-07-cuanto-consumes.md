@@ -3,6 +3,8 @@ layout: post
 title: "¿Cuánto consumes?"
 excerpt_separator: <!--more-->
 published: true
+tags: modbus, RTU, Arduino, energy monitor, 
+commentIssueId: 1
 ---
 Espera... sí, aquí están las últimas facturas de luz, agua, son de hace dos meses, vaya esta es un poco alta, ya recuerdo, hubo un día que se quedó la mangera abierta y inundamos el jardín... la de la electricidad, esa no hablamos, los niños se dejan las luces de sus habitaciones, la tele encendida...
 ¿Potencia contratada? la que me puso el electricista, pues no sé si es mucho, solo sé que no salta el ICP, pero pago una factura por potencia que es la igual a la de energía... <!--more-->
@@ -67,9 +69,11 @@ La primera decisión fue almacenar los datos en sentido inverso al orden de la t
 Dando un paso más allá, comprobé que los SDM630, modelo trifásico del SDM120 almacenal los valores float de las tres fases en registros consecutivos, por lo que podría leer 3 valores float, equivalente a 6 registros de 16 bits consecutivos, almacenarlo en una estructura 
 
 ```C++
-struct three-phase {
+
+struct three_phase {
   float line3, line2, line1;
 } voltage, current, power;
+
 ```
 
 y los datos estarían disponibles en ``voltage.line1`` y sucesivos. Esta estructura permite reducir el numero de llamadas a los diferentes equipos, permitiendo mayores tasas de refresco.

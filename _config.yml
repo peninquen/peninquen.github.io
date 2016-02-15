@@ -32,9 +32,14 @@ footer-links:
   googleplus: # anything in your profile username that comes after plus.google.com/
 
 
-# Enter your Disqus shortname (not your username) to enable commenting on posts
+
+  # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
 disqus: #http://disqus.com/by/peninquen
+
+github:
+  user: peninquen
+  project: peninquen.github.io
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 google_analytics:
